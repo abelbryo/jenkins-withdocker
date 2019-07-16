@@ -22,3 +22,5 @@ RUN apt-get update && \
    apt-get update && \
    apt-get install sbt
 
+USER jenkins
+
