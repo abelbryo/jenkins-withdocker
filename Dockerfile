@@ -2,6 +2,8 @@ FROM jenkins/jenkins:lts
 MAINTAINER miiro@getintodevops.com
 USER root
 
+ARG KUBECTL_VERSION=v1.14.3
+
 # - Install the latest Docker CE binaries
 # - Install sbt
 RUN apt-get update && \
@@ -20,7 +22,10 @@ RUN apt-get update && \
    echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list && \
    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 && \
    apt-get update && \
-   apt-get install sbt
+   apt-get install sbt && \
+   curl -LO https://storage.googleapis.com/kubernetes-release/release/$KUBECTL_VERSION/bin/linux/amd64/kubectl && \
+   chmod +x ./kubectl && \
+   sudo mv ./kubectl /usr/local/bin/kubectl
 
 USER jenkins
 
